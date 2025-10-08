@@ -8,8 +8,7 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.security.Keys;
 
 public class JwtUtil {
-	
-	
+	 
 	private static final Key key = Keys.secretKeyFor(SignatureAlgorithm.HS256);
 	
 	//generate token 
@@ -24,7 +23,6 @@ public class JwtUtil {
 				.compact();
 	}
 	
-	
 	//validate Token
 	public static String validateToken(String Token) {
 		return Jwts.parserBuilder()
@@ -35,3 +33,4 @@ public class JwtUtil {
 				.getSubject();
 	}
 }
+
