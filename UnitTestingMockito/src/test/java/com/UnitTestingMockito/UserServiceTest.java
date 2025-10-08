@@ -28,17 +28,11 @@ class UserServiceTest {
 	
 	@InjectMocks
 	private UserService userService;
-	
 
-	
-	
 	@Test
 	void shouldReturnUserName_whenUserExists() {
 		PrometheusMeterRegistry registry = new PrometheusMeterRegistry(PrometheusConfig.DEFAULT);
         Timer timer = registry.timer("application.process.time"); 
-        
-        
-		
 		timer.record(()->{
 			Users user = new Users(1L, "Alice");
 			when(userRepository.findById(1L)).thenReturn(Optional.of(user));
@@ -47,10 +41,6 @@ class UserServiceTest {
 			assertEquals("Alice", result);
 			verify(userRepository).findById(1L) ;
 		});
-		
-		
-	
-		
 		 System.out.println(registry.scrape());
 	}
 	
