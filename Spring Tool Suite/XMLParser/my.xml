@@ -1,0 +1,19 @@
+<!DOCTYPE books SYSTEM "my.dtd">
+<books>
+	<book id="01">
+		<name> java1 </name>
+		<author>james1</author>
+		<price>3001</price>
+	</book>
+	<book id="02">
+		<name> java2 </name>
+		<author>james2</author>
+		<price>3002</price>
+	</book>
+	<book id="03">
+		<name> java3 </name>
+		<author>james3</author>
+		<price>3003</price>
+	</book>
+
+</books>
