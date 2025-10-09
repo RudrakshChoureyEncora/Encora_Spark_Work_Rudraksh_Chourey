@@ -1,0 +1,47 @@
+package com.encora.service.trans;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.encora.model.trans.Accounts;
+import com.encora.repository.trans.AccountsRepo;
+
+@Service
+public class AccountsServiceImpl implements AccountsService {
+
+    @Autowired
+    private AccountsRepo accountsRepo;
+
+    @Transactional(propagation = Propagation.REQUIRED)
+    @Override
+    public void doCredit(int crid, int amt) {
+        Accounts account = accountsRepo.findById(crid)
+                .orElseThrow(() -> new RuntimeException("Account not found: " + crid));
+
+        int newAmt = account.getAmount() + amt;
+        account.setAmount(newAmt);
+        accountsRepo.save(account);
+
+        System.out.println("✅ Credited " + amt + " to Account " + crid + " | New Balance: " + newAmt);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, rollbackFor = LowBalanceException.class)
+    @Override
+    public void doDebit(int drid, int amt) {
+        Accounts account = accountsRepo.findById(drid)
+                .orElseThrow(() -> new RuntimeException("Account not found: " + drid));
+
+        int oldAmt = account.getAmount();
+        if (oldAmt < amt) {
+            throw new LowBalanceException("❌ Insufficient balance in Account " + drid);
+        }
+
+        int newAmt = oldAmt - amt;
+        account.setAmount(newAmt);
+        accountsRepo.save(account);
+
+        System.out.println("✅ Debited " + amt + " from Account " + drid + " | New Balance: " + newAmt);
+    }
+}
