@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import com.assignment3.security.CustomAccessDeniedHandler;
 import com.assignment3.security.JwtRequestFilter;
 
 @Configuration
@@ -14,9 +15,12 @@ public class SecurityConfig {
 //    private final SecurityFilterChain filterChain;
 
     private final JwtRequestFilter jwtRequestFilter;
+    
+    private final CustomAccessDeniedHandler accessDeniedHandler;
 
-    public SecurityConfig(JwtRequestFilter jwtRequestFilter) {
+    public SecurityConfig(JwtRequestFilter jwtRequestFilter,CustomAccessDeniedHandler accessDeniedHandler) {
         this.jwtRequestFilter = jwtRequestFilter;
+        this.accessDeniedHandler=accessDeniedHandler;
 //        this.filterChain = filterChain;
     }
 
@@ -31,6 +35,7 @@ public class SecurityConfig {
                     .anyRequest().permitAll()
                 )
                 .addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
+                .exceptionHandling(ex -> ex.accessDeniedHandler(accessDeniedHandler)) //   Register handler 
                 .build();
     }
 }

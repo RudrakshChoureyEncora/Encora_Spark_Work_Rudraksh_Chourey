@@ -21,6 +21,7 @@ public class HelloController {
 		return ResponseEntity.ok("Bearer "+token);
 	}
 	
+	
 	 @GetMapping("/api/hello") 
 	 public String hello(Authentication auth) { 
 		 return "Hello, " + auth.getName() + "! You are authenticated."; 
