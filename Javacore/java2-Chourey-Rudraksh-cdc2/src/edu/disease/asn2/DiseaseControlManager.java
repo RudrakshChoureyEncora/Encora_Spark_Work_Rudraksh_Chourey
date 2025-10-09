@@ -1,0 +1,15 @@
+package edu.disease.asn2;
+
+import java.util.UUID;
+
+import edu.disease.asn1.Exposure;
+
+public interface DiseaseControlManager {
+	public Disease addDisease(String name,boolean infectious);
+	public Disease getDisease(UUID diseaseId);
+	public Patient addPatient(String firstName,String lastName,int maxDiseases,int maxExposures,UUID patientID);
+	public Patient getPatient(UUID patientID);
+	public void addDiseaseToPateint(UUID pateintId,UUID diseaseId)throws Exception; 
+	public void addExposureToPateint(UUID PateintId,Exposure exposure) throws Exception;
+	public Patient[] getPets() ;
+}
